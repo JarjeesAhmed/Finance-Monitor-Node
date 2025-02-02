@@ -28,12 +28,17 @@ router.get('/stats', auth, async (req, res) => {
       const dayTransactions = weeklyTransactions.filter(t => 
         t.date.toDateString() === date.toDateString()
       );
-      const amount = dayTransactions.reduce((acc, curr) => 
-        curr.type === 'income' ? acc + curr.amount : acc - curr.amount
+      const incomeAmount = dayTransactions.reduce((acc, curr) => 
+        curr.type === 'income' ? acc + curr.amount :acc
+      , 0);
+
+      const expenseAmount = dayTransactions.reduce((acc, curr) => 
+        curr.type === 'expense' ? acc + curr.amount : acc
       , 0);
       return {
         name: date.toLocaleDateString('en-US', { weekday: 'short' }),
-        amount
+        income:incomeAmount,
+        expense: expenseAmount
       };
     });
 

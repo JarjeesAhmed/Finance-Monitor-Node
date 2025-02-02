@@ -174,13 +174,18 @@ async function getWeeklyComparison(userId) {
       t.date.toDateString() === date.toDateString()
     );
     
-    const dailyTotal = dayTransactions.reduce((acc, curr) => 
+    const dailyExpenseTotal = dayTransactions.reduce((acc, curr) => 
       curr.type === 'expense' ? acc + curr.amount : acc, 0
+    );
+
+    const dailyIncomeTotal = dayTransactions.reduce((acc, curr) => 
+      curr.type === 'income' ? acc + curr.amount : acc, 0
     );
 
     weeklyData.unshift({
       day: date.toLocaleDateString('en-US', { weekday: 'short' }),
-      amount: dailyTotal
+      income: dailyIncomeTotal,
+      expense: dailyExpenseTotal
     });
   }
 
